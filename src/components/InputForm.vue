@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <h1 class="text-center pb-5">{{ttl}}</h1>
-    <p>userId: {{line.userId}}</p>
-    <p>displayName: {{line.displayName}}</p>
     <form @submit.prevent="sendMessage">
       <div class="form-group">
         <label for="name">名前</label>
@@ -69,10 +67,6 @@
           time1: '',
           time2: '',
           message: '',
-        },
-        line: {
-          userId: "",
-          displayName: "",
         },
         reasons: ['電車遅延', '体調不良', '忘れ物', 'その他'],
         types: ['遅刻します', '全休をいただきます', '午前休をいただきます', '午後休をいただきます'],
