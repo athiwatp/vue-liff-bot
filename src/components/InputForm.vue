@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="text-center pb-5">{{ttl}}</h1>
-    <form @submit.prevent="sendMessage()">
+    <form @submit.prevent="">
       <div class="form-group">
         <label for="name">名前</label>
         <input type="text" class="form-control" id="name" v-model="data.name" @change="createMessage()">
@@ -45,7 +45,7 @@
         <textarea class="form-control" id="message" rows="5" v-model="data.message"></textarea>
       </div>
       <div class="form-group pt-2">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">送信</button>
+        <button class="btn btn-primary btn-lg btn-block" id="send" type="submit">送信</button>
       </div>
     </form>
   </div>
@@ -101,14 +101,20 @@
   
         this.data.message = text;
       },
-      sendMessage: function() {
-        // let a = window.liff.postMessage
-        // window.console.log(a)
-        window.liff.postMessage({
-          type: 'text',
-          text: this.data.message
-        })
-      }
+      // sendMessage: function() {
+      //   window.liff.sendMessages([{
+      //     type: 'text',
+      //     text: this.data.message
+      //   }, {
+      //     type: 'sticker',
+      //     packageId: '2',
+      //     stickerId: '144'
+      //   }]).then(function () {
+      //     window.alert("送信完了");
+      //   }).catch(function (error) {
+      //     window.alert("Error sending message: " + error);
+      //   });
+      // }
     }
   };
 </script>
