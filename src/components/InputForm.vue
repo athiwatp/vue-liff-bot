@@ -3,7 +3,7 @@
     <h1 class="text-center pb-5">{{ttl}}</h1>
     <p>userId: {{line.userId}}</p>
     <p>displayName: {{line.displayName}}</p>
-    <form>
+    <form @submit.prevent="sendMessage">
       <div class="form-group">
         <label for="name">名前</label>
         <input type="text" class="form-control" id="name" v-model="data.name" @change="createMessage()">
@@ -47,7 +47,7 @@
         <textarea class="form-control" id="message" rows="5" v-model="data.message"></textarea>
       </div>
       <div class="form-group pt-5">
-        <input class="btn btn-primary btn-lg btn-block" type="submit" @click.prevent="submit" value="送信" />
+        <button class="btn btn-primary btn-lg btn-block" type="submit" @click.prevent="submit">送信</button>
       </div>
     </form>
   </div>
@@ -80,19 +80,6 @@
         text2: 'よろしくお願いします。'
       };
     },
-    mouted: function() {
-      const self = this
-      window.liff.init(function(data) {
-        window.liff.getProfile().then(function(profile) {
-          self.line.userId = profile.userId
-          self.data.name = profile.userId
-          self.line.displayName = profile.displayName
-        }).catch(function(error) {
-          window.alert("Error getting profile: " + error)
-        });
-        window.initializeApp(data)
-      });
-    },
     methods: {
       createTimes: function(init, to) {
         const times = [];
@@ -119,6 +106,20 @@
         text = `${this.text1}${this.data.name}です。${text_reson}のため${text_schedule}。${this.text2}`;
   
         this.data.message = text;
+      },
+      sendMessage: function() {
+        window.liff.sendMessages([{
+            type: 'text',
+            text: this.data.message
+        }, {
+            type: 'sticker',
+            packageId: '2',
+            stickerId: '144'
+        }]).then(function () {
+            window.alert("送信完了");
+        }).catch(function (error) {
+            window.alert("Error sending message: " + error);
+        });
       }
     }
   };
