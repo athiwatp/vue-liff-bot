@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="text-center pb-5">{{ttl}}</h1>
+    <h1 class="text-center pb-2">{{ttl}}</h1>
     <form @submit.prevent="">
       <div class="form-group">
         <label for="name">名前</label>
@@ -101,20 +101,6 @@
   
         this.data.message = text;
       },
-      // sendMessage: function() {
-      //   window.liff.sendMessages([{
-      //     type: 'text',
-      //     text: this.data.message
-      //   }, {
-      //     type: 'sticker',
-      //     packageId: '2',
-      //     stickerId: '144'
-      //   }]).then(function () {
-      //     window.alert("送信完了");
-      //   }).catch(function (error) {
-      //     window.alert("Error sending message: " + error);
-      //   });
-      // }
     }
   };
 </script>
