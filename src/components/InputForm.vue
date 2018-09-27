@@ -11,8 +11,8 @@
       <div class="form-group">
         <label for="reason">遅刻理由</label>
         <select class="form-control" v-model="data.reason" id="reason" @change="createMessage()">
-          <option v-for="(reason, index) in reasons" :key="index">{{reason}}</option>
-        </select>
+            <option v-for="(reason, index) in reasons" :key="index">{{reason}}</option>
+          </select>
       </div>
       <div class="form-group" v-show="data.reason=='その他'">
         <input type="text" class="form-control" id="reson_other" @change="createMessage()" placeholder="その他の場合は理由を書いてください。" v-model="data.reason_other">
@@ -29,16 +29,16 @@
         <div class="form-row align-items-center">
           <div class="col-2">
             <select class="form-control" v-model="data.time1" @change="createMessage()">
-                    <option v-for="(time, index) in createTimes(0,12)" :key="index">{{time}}</option>
-                  </select>
+                      <option v-for="(time, index) in createTimes(0,12)" :key="index">{{time}}</option>
+                    </select>
           </div>
           <div class="col-1 text-center">
             <span>～</span>
           </div>
           <div class="col-2">
             <select class="form-control" v-model="data.time2" @change="createMessage()">
-                    <option v-for="(time, index) in createTimes(1,13)" :key="index">{{time}}</option>
-                  </select>
+                      <option v-for="(time, index) in createTimes(1,13)" :key="index">{{time}}</option>
+                    </select>
           </div>
         </div>
       </div>
@@ -80,12 +80,8 @@
         text2: 'よろしくお願いします。'
       };
     },
-    created: function() {
+    mouted: function() {
       window.liff.init(function(data) {
-        getProfile()
-        window.initializeApp(data)
-      });
-      function getProfile() {
         window.liff.getProfile().then(function(profile) {
           this.line.userId = profile.userId;
           this.data.name = profile.userId;
@@ -93,7 +89,8 @@
         }).catch(function(error) {
           window.alert("Error getting profile: " + error);
         });
-      }
+        window.initializeApp(data)
+      });
     },
     methods: {
       createTimes: function(init, to) {
