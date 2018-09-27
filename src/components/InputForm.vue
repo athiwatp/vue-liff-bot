@@ -81,13 +81,14 @@
       };
     },
     mouted: function() {
+      const self = this
       window.liff.init(function(data) {
         window.liff.getProfile().then(function(profile) {
-          this.line.userId = profile.userId;
-          this.data.name = profile.userId;
-          this.line.displayName = profile.displayName;
+          self.line.userId = profile.userId
+          self.data.name = profile.userId
+          self.line.displayName = profile.displayName
         }).catch(function(error) {
-          window.alert("Error getting profile: " + error);
+          window.alert("Error getting profile: " + error)
         });
         window.initializeApp(data)
       });
