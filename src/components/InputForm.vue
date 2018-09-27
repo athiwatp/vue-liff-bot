@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <h1 class="text-center pb-5">{{ttl}}</h1>
+    <p>userId: {{line.userId}}</p>
+    <p>displayName: {{line.displayName}}</p>
     <form>
       <div class="form-group">
         <label for="name">名前</label>
@@ -13,7 +15,7 @@
         </select>
       </div>
       <div class="form-group" v-show="data.reason=='その他'">
-        <input type="text" class="form-control" id="reson_other" @change="createMessage()" placeholder="その他の場合は理由を書いてください。" v-model="data.reason_other" >
+        <input type="text" class="form-control" id="reson_other" @change="createMessage()" placeholder="その他の場合は理由を書いてください。" v-model="data.reason_other">
       </div>
       <div class="form-group">
         <label>種別</label>
@@ -27,16 +29,16 @@
         <div class="form-row align-items-center">
           <div class="col-2">
             <select class="form-control" v-model="data.time1" @change="createMessage()">
-              <option v-for="(time, index) in createTimes(0,12)" :key="index">{{time}}</option>
-            </select>
+                    <option v-for="(time, index) in createTimes(0,12)" :key="index">{{time}}</option>
+                  </select>
           </div>
           <div class="col-1 text-center">
             <span>～</span>
           </div>
           <div class="col-2">
             <select class="form-control" v-model="data.time2" @change="createMessage()">
-              <option v-for="(time, index) in createTimes(1,13)" :key="index">{{time}}</option>
-            </select>
+                    <option v-for="(time, index) in createTimes(1,13)" :key="index">{{time}}</option>
+                  </select>
           </div>
         </div>
       </div>
@@ -45,70 +47,85 @@
         <textarea class="form-control" id="message" rows="5" v-model="data.message"></textarea>
       </div>
       <div class="form-group pt-5">
-        <input
-          class="btn btn-primary btn-lg btn-block"
-          type="submit"
-          @click.prevent="submit"
-          value="送信"
-        />
+        <input class="btn btn-primary btn-lg btn-block" type="submit" @click.prevent="submit" value="送信" />
       </div>
     </form>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'InputForm',
-  props: {
-    ttl: String
-  },
-  data() {
-    return {
-      data: {
-        name: '',
-        reason: '',
-        reason_other: '',
-        schedule: '',
-        time1: '',
-        time2: '',
-        message: '',
-      },
-      reasons: ['電車遅延', '体調不良', '忘れ物', 'その他'],
-      types: ['遅刻します', '全休をいただきます', '午前休をいただきます', '午後休をいただきます'],
-      text1: 'おはようございます。',
-      text2: 'よろしくお願いします。'
-    };
-  },
-  methods: {
-    createTimes: function(init, to) {
-      const times = [];
-      for (let index = init; index < to; index++) {
-        times.push(`${index * 5}分`);
-      }
-      return times;
+  export default {
+    name: 'InputForm',
+    props: {
+      ttl: String
     },
-    createMessage: function() {
-      let text, text_reson, text_schedule
-
-      if(this.data.reason == "その他") {
-        text_reson = this.data.reason_other
-      } else {
-        text_reson = this.data.reason
+    data() {
+      return {
+        data: {
+          name: '',
+          reason: '',
+          reason_other: '',
+          schedule: '',
+          time1: '',
+          time2: '',
+          message: '',
+        },
+        line: {
+          userId: "",
+          displayName: "",
+        },
+        reasons: ['電車遅延', '体調不良', '忘れ物', 'その他'],
+        types: ['遅刻します', '全休をいただきます', '午前休をいただきます', '午後休をいただきます'],
+        text1: 'おはようございます。',
+        text2: 'よろしくお願いします。'
+      };
+    },
+    created: function() {
+      window.liff.init(function(data) {
+        getProfile()
+        window.initializeApp(data)
+      });
+      function getProfile() {
+        window.liff.getProfile().then(function(profile) {
+          this.line.userId = profile.userId;
+          this.data.name = profile.userId;
+          this.line.displayName = profile.displayName;
+        }).catch(function(error) {
+          window.alert("Error getting profile: " + error);
+        });
       }
-
-      if(this.data.schedule == "遅刻します") {
-        text_schedule = `${this.data.time1}～${this.data.time2}ほど${this.data.schedule}`
-      } else {
-        text_schedule = this.data.schedule
+    },
+    methods: {
+      createTimes: function(init, to) {
+        const times = [];
+        for (let index = init; index < to; index++) {
+          times.push(`${index * 5}分`);
+        }
+        return times;
+      },
+      createMessage: function() {
+        let text, text_reson, text_schedule
+  
+        if (this.data.reason == "その他") {
+          text_reson = this.data.reason_other
+        } else {
+          text_reson = this.data.reason
+        }
+  
+        if (this.data.schedule == "遅刻します") {
+          text_schedule = `${this.data.time1}～${this.data.time2}ほど${this.data.schedule}`
+        } else {
+          text_schedule = this.data.schedule
+        }
+  
+        text = `${this.text1}${this.data.name}です。${text_reson}のため${text_schedule}。${this.text2}`;
+  
+        this.data.message = text;
       }
-
-      text = `${this.text1}${this.data.name}です。${text_reson}のため${text_schedule}。${this.text2}`;
-
-      this.data.message = text;
     }
-  }
-};
+  };
 </script>
 
 <style>
+  
 </style>
