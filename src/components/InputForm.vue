@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="text-center pb-5">{{ttl}}</h1>
-    <form @submit.prevent="sendMessage">
+    <form @submit.prevent="sendMessage()">
       <div class="form-group">
         <label for="name">名前</label>
         <input type="text" class="form-control" id="name" v-model="data.name" @change="createMessage()">
@@ -102,18 +102,12 @@
         this.data.message = text;
       },
       sendMessage: function() {
-        window.liff.sendMessages([{
+        // let a = window.liff.postMessage
+        // window.console.log(a)
+        window.liff.postMessage({
           type: 'text',
           text: this.data.message
-        }, {
-          type: 'sticker',
-          packageId: '2',
-          stickerId: '144'
-        }]).then(function () {
-          window.alert("送信完了");
-        }).catch(function (error) {
-          window.alert("Error sending message: " + error);
-        });
+        })
       }
     }
   };
