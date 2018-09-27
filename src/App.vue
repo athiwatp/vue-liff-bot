@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="pt-3 pb-3">
     <input-form :ttl="title" />
   </div>
 </template>
@@ -23,6 +23,5 @@ export default {
 <style>
 #app {
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

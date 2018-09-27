@@ -25,18 +25,18 @@
       <div class="form-group" v-show="data.schedule == '遅刻します'">
         <label>遅刻時間</label>
         <div class="form-row align-items-center">
-          <div class="col-2">
+          <div class="col-5 form-group">
             <select class="form-control" v-model="data.time1" @change="createMessage()">
-                      <option v-for="(time, index) in createTimes(0,12)" :key="index">{{time}}</option>
-                    </select>
+                <option v-for="(time, index) in createTimes(0,12)" :key="index">{{time}}</option>
+              </select>
           </div>
-          <div class="col-1 text-center">
+          <div class="col-2 text-center form-group">
             <span>～</span>
           </div>
-          <div class="col-2">
+          <div class="col-5 form-group">
             <select class="form-control" v-model="data.time2" @change="createMessage()">
-                      <option v-for="(time, index) in createTimes(1,13)" :key="index">{{time}}</option>
-                    </select>
+              <option v-for="(time, index) in createTimes(1,13)" :key="index">{{time}}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -44,8 +44,8 @@
         <label for="message">メッセージ</label>
         <textarea class="form-control" id="message" rows="5" v-model="data.message"></textarea>
       </div>
-      <div class="form-group pt-5">
-        <button class="btn btn-primary btn-lg btn-block" type="submit" @click.prevent="submit">送信</button>
+      <div class="form-group pt-2">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">送信</button>
       </div>
     </form>
   </div>
@@ -102,17 +102,19 @@
         this.data.message = text;
       },
       sendMessage: function() {
-        window.liff.sendMessages([{
+        window.liff.init(function() {
+          window.liff.sendMessages([{
             type: 'text',
             text: this.data.message
-        }, {
+          }, {
             type: 'sticker',
             packageId: '2',
             stickerId: '144'
-        }]).then(function () {
+          }]).then(function () {
             window.alert("送信完了");
-        }).catch(function (error) {
+          }).catch(function (error) {
             window.alert("Error sending message: " + error);
+          })();
         });
       }
     }
