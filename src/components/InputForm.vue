@@ -102,19 +102,17 @@
         this.data.message = text;
       },
       sendMessage: function() {
-        window.liff.init(function() {
-          window.liff.sendMessages([{
-            type: 'text',
-            text: this.data.message
-          }, {
-            type: 'sticker',
-            packageId: '2',
-            stickerId: '144'
-          }]).then(function () {
-            window.alert("送信完了");
-          }).catch(function (error) {
-            window.alert("Error sending message: " + error);
-          })();
+        window.liff.sendMessages([{
+          type: 'text',
+          text: this.data.message
+        }, {
+          type: 'sticker',
+          packageId: '2',
+          stickerId: '144'
+        }]).then(function () {
+          window.alert("送信完了");
+        }).catch(function (error) {
+          window.alert("Error sending message: " + error);
         });
       }
     }
