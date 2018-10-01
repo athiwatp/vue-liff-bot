@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// inputFormをComponentとして設定
 import InputForm from '@/components/InputForm.vue'
 
 export default {
@@ -14,6 +15,7 @@ export default {
   },
   data() {
     return {
+      // titleをpropとしてComponentに渡す
       title : "勤怠連絡 BOT"
     }
   }
